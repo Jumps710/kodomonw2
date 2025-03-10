@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>過去の活動報告</title>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.20.0/sdk.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>過去の活動報告</h1>
+<ul id="historyList">読み込み中...</ul>
+
+<button onclick="window.location.href='index.html'">戻る</button>
+
+<script>
+const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
+
+async function loadHistory() {
+    try {
+        const response = await fetch(`${BACKEND_URL}?action=report_getHistory`);
+        const history = await response.json();
+        const historyList = document.getElementById("historyList");
+        historyList.innerHTML = "";
+
+        if (history.length === 0) {
+            historyList.innerHTML = "<p>履歴がありません。</p>";
+            return;
+        }
+
+        history.forEach(item => {
+            const li = document.createElement("li");
+            li.innerHTML = `📅 ${item.date} - ${item.site} / 大人: ${item.adults}名, 子ども: ${item.children}名`;
+            historyList.appendChild(li);
+        });
+    } catch (error) {
+        document.getElementById("historyList").innerHTML = "<p>履歴の取得に失敗しました。</p>";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadHistory);
+</script>
+
+</body>
+</html>
