@@ -48,7 +48,7 @@ document.getElementById("previewBtn").addEventListener("click", () => {
 
 document.getElementById("confirmBtn").addEventListener("click", async () => {
     const params = new URLSearchParams({
-        action: "submitReport",
+        action: "report_submit",
         userId, siteName, displayName,
         eventDate: document.getElementById("eventDate").value,
         eventType: document.getElementById("eventType").value,
