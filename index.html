@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動報告</title>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.20.0/sdk.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+        .modal-content { background: #fff; padding: 20px; border-radius: 10px; text-align: center; width: 80%; max-width: 400px; }
+        .modal-content button { margin-top: 15px; padding: 8px 20px; border: none; background-color: #4CAF50; color: white; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<form id="reportForm">
+    <h1 id="formTitle">活動報告</h1>
+    <div id="loading">お待ちください...</div>
+    <div id="reportInfo" style="display: none;">
+        <p id="titleText"></p>
+
+        <label for="eventDate">開催日:</label>
+        <input type="date" id="eventDate" required>
+
+        <label for="eventType">開催タイプ:</label>
+        <select id="eventType">
+            <option value="子ども食堂">子ども食堂</option>
+            <option value="お弁当配布">お弁当配布</option>
+            <option value="フードパントリー">フードパントリー</option>
+        </select>
+
+        <label for="adults">参加人数（大人）:</label>
+        <input type="number" id="adults" min="0" required>
+
+        <label for="children">参加人数（子ども）:</label>
+        <input type="number" id="children" min="0" required>
+
+        <label for="comments">気づいた点:</label>
+        <textarea id="comments"></textarea>
+
+        <button type="button" id="previewBtn">プレビュー</button>
+        <button type="button" onclick="window.location.href='history.html'">過去の開催履歴をみる</button>
+    </div>
+</form>
+
+<!-- プレビューモーダル -->
+<div id="previewModal" class="modal">
+    <div class="modal-content">
+        <p id="previewContent"></p>
+        <button id="confirmBtn">確定</button>
+        <button onclick="closeModal()">キャンセル</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
