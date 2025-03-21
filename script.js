@@ -1,4 +1,4 @@
-const LIFF_ID = "2006996059-NjRq5Mro";
+const LIFF_ID = "2007068043-6kbeXdx4";
 const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
 let userId, displayName, siteName;
 
