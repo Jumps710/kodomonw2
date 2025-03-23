@@ -153,3 +153,26 @@ button:hover {
     margin: 10px 0;
 }
 
+/* 成功モーダルのスタイル */
+.modal-content h3 {
+    font-size: 20px;
+    color: green;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
+}
+
+
