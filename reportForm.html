@@ -6,10 +6,10 @@
     <title>活動報告フォーム</title>
     <script src="https://static.line-scdn.net/liff/edge/versions/2.20.0/sdk.js"></script>
     <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
     <script>
         new VConsole();
     </script>
-<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -34,19 +34,30 @@
     <label for="comments">気づいた点:</label>
     <textarea id="comments" required></textarea>
 
-    <label for="imageUpload">画像アップロード:</label>
-    <input type="file" id="imageUpload" accept="image/*">
+    <div>
+        <input type="file" id="imageUpload" hidden>
+        <label for="imageUpload" class="custom-file-label">画像を選択</label>
+        <span class="file-name">未選択</span>
+    </div>
 
-    <button type="button" id="previewBtn">プレビュー</button>
+    <div id="photoPreview"></div>
+
+    <button id="submitReport">送信</button>
 </form>
 
 <!-- プレビューモーダル -->
-<div id="previewModal" class="modal">
+<div id="confirmationModal" class="modal">
     <div class="modal-content">
-        <p id="previewContent"></p>
-        <img id="previewImage" class="image-preview" src="" alt="プレビュー画像">
-        <button id="confirmBtn">確定</button>
-        <button onclick="closeModal()">キャンセル</button>
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>活動報告を送信しますか？</h2>
+        <div class="preview-item"><b>開催日:</b> <span id="confirmDate"></span></div>
+        <div class="preview-item"><b>開催タイプ:</b> <span id="confirmType"></span></div>
+        <div class="preview-item"><b>参加人数（大人）:</b> <span id="confirmAdults"></span></div>
+        <div class="preview-item"><b>参加人数（子ども）:</b> <span id="confirmChildren"></span></div>
+        <div class="preview-item"><b>気づいた点:</b> <span id="confirmComments"></span></div>
+        <div id="confirmImagePreview"></div>
+        <button id="confirmSubmit">確定</button>
+        <div class="loading-msg" id="loadingMsg">お待ちください・・・</div>
     </div>
 </div>
 
@@ -61,60 +72,41 @@ window.onload = function() {
     document.getElementById("formTitle").textContent = `${siteName} ${nickname}さん 活動報告を入力してください。`;
 };
 
-// プレビュー表示
-document.getElementById("previewBtn").addEventListener("click", () => {
-    const eventDate = document.getElementById("eventDate").value;
-    const eventType = document.getElementById("eventType").value;
-    const adults = document.getElementById("adults").value;
-    const children = document.getElementById("children").value;
-    const comments = document.getElementById("comments").value;
-    const image = document.getElementById("imageUpload").files[0];
-
-    let previewContent = `開催日: ${eventDate}<br>開催タイプ: ${eventType}<br>参加人数（大人）: ${adults}<br>参加人数（子ども）: ${children}<br>気づいた点: ${comments}`;
-    document.getElementById("previewContent").innerHTML = previewContent;
-
-    if (image) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            document.getElementById("previewImage").src = e.target.result;
-        };
-        reader.readAsDataURL(image);
-    } else {
-        document.getElementById("previewImage").src = "";
-    }
-
-    document.getElementById("previewModal").style.display = "flex";
+document.getElementById("imageUpload").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    document.querySelector('.file-name').textContent = file ? file.name : "未選択";
 });
 
-// GASへデータ送信
-document.getElementById("confirmBtn").addEventListener("click", async () => {
+document.getElementById("submitReport").addEventListener("click", (e) => {
+    e.preventDefault();
     const eventDate = document.getElementById("eventDate").value;
     const eventType = document.getElementById("eventType").value;
     const adults = document.getElementById("adults").value;
     const children = document.getElementById("children").value;
     const comments = document.getElementById("comments").value;
-    const image = document.getElementById("imageUpload").files[0];
 
-    let imageBase64 = "";
-    if (image) {
-        const reader = new FileReader();
-        imageBase64 = await new Promise((resolve) => {
-            reader.onload = (e) => resolve(e.target.result.split(",")[1]);
-            reader.readAsDataURL(image);
-        });
-    }
+    document.getElementById("confirmDate").textContent = eventDate;
+    document.getElementById("confirmType").textContent = eventType;
+    document.getElementById("confirmAdults").textContent = adults;
+    document.getElementById("confirmChildren").textContent = children;
+    document.getElementById("confirmComments").textContent = comments;
+
+    document.getElementById("confirmationModal").style.display = "flex";
+});
+
+document.getElementById("confirmSubmit").addEventListener("click", async () => {
+    document.getElementById("loadingMsg").style.display = "block";
 
     const data = new URLSearchParams({
         action: "report_submit",
-        userId: userId,
-        siteName: siteName,
-        nickname: nickname,
-        eventDate: eventDate,
-        eventType: eventType,
-        adults: adults,
-        children: children,
-        comments: comments,
-        imageBase64: imageBase64
+        userId,
+        siteName,
+        nickname,
+        eventDate: document.getElementById("eventDate").value,
+        eventType: document.getElementById("eventType").value,
+        adults: document.getElementById("adults").value,
+        children: document.getElementById("children").value,
+        comments: document.getElementById("comments").value
     });
 
     try {
@@ -123,11 +115,11 @@ document.getElementById("confirmBtn").addEventListener("click", async () => {
             body: data
         });
         const result = await response.json();
+        document.getElementById("loadingMsg").style.display = "none";
         if (result.status === "success") {
             alert("活動報告が完了しました！");
             closeModal();
             document.getElementById("reportForm").reset();
-            document.getElementById("previewImage").src = "";
         } else {
             alert("エラーが発生しました: " + result.message);
         }
@@ -138,11 +130,9 @@ document.getElementById("confirmBtn").addEventListener("click", async () => {
 });
 
 function closeModal() {
-    document.getElementById("previewModal").style.display = "none";
+    document.getElementById("confirmationModal").style.display = "none";
 }
 </script>
 
-
 </body>
 </html>
-
