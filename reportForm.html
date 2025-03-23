@@ -80,6 +80,7 @@ const imageUpload = document.getElementById("imageUpload");
 imageUpload.addEventListener("change", (e) => {
     const file = e.target.files[0];
     document.querySelector(".file-name").textContent = file ? file.name : "未選択";
+    console.log("画像選択:", file ? file.name : "未選択");
 });
 
 // 送信ボタンクリック
@@ -90,14 +91,43 @@ document.getElementById("submitReport").addEventListener("click", (e) => {
     const adults = document.getElementById("adults").value;
     const children = document.getElementById("children").value;
     const comments = document.getElementById("comments").value;
+
     console.log("送信ボタンがクリックされました");
-    console.log("開催日: ", eventDate);
-    console.log("開催タイプ: ", eventType);
-    console.log("大人: ", adults);
-    console.log("子ども: ", children);
-    console.log("コメント: ", comments);
-    document.getElementById("loadingMsg").style.display = "block";
+    console.log("開催日:", eventDate);
+    console.log("開催タイプ:", eventType);
+    console.log("大人:", adults);
+    console.log("子ども:", children);
+    console.log("コメント:", comments);
+
+    // モーダルにデータを表示
+    document.getElementById("confirmEventDate").textContent = eventDate;
+    document.getElementById("confirmEventType").textContent = eventType;
+    document.getElementById("confirmAdults").textContent = adults;
+    document.getElementById("confirmChildren").textContent = children;
+    document.getElementById("confirmComments").textContent = comments;
+
+    document.getElementById("confirmationModal").style.display = "flex";
 });
+
+// 確定ボタンクリック
+document.getElementById("confirmSubmit").addEventListener("click", async () => {
+    try {
+        console.log("✅ 確定ボタンがクリックされました");
+        document.getElementById("loadingMsg").style.display = "block";
+
+        // ダミー処理（ここに送信ロジックを挿入）
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        console.log("✅ 活動報告が完了しました");
+        alert("活動報告が完了しました！");
+        document.getElementById("confirmationModal").style.display = "none";
+        document.getElementById("loadingMsg").style.display = "none";
+    } catch (error) {
+        console.error("❌ 活動報告送信エラー:", error);
+        alert("活動報告の送信に失敗しました");
+    }
+});
+
 </script>
 
 </body>
