@@ -161,22 +161,43 @@ document.getElementById("confirmSubmit").addEventListener("click", async () => {
     });
 
     try {
+        console.log("送信データ: ", Object.fromEntries(formData.entries()));
+
         const response = await fetch(BACKEND_URL, {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: formData
         });
 
-        const result = await response.json();
-        alert(result.message);
-        document.getElementById("loadingMsg").style.display = "none";
-        closeModal();
-        document.getElementById("reportForm").reset();
+        const resultText = await response.text();
+        console.log("レスポンス結果 (テキスト):", resultText);
+
+        let result;
+        try {
+            result = JSON.parse(resultText);
+        } catch (parseError) {
+            console.error("レスポンスJSONパースエラー:", parseError);
+            alert("レスポンスが不正です: " + resultText);
+            return;
+        }
+
+        if (result.status === "success") {
+            alert(result.message);
+            document.getElementById("loadingMsg").style.display = "none";
+            closeModal();
+            document.getElementById("reportForm").reset();
+        } else {
+            console.error("エラー結果:", result);
+            alert("エラーが発生しました: " + result.message);
+            document.getElementById("loadingMsg").style.display = "none";
+        }
     } catch (error) {
-        alert("送信に失敗しました");
+        console.error("❌ 送信エラー:", error);
+        alert("送信に失敗しました: " + error.message);
         document.getElementById("loadingMsg").style.display = "none";
     }
 });
+
 
 function closeModal() {
     document.getElementById("confirmationModal").style.display = "none";
