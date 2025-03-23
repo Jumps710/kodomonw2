@@ -1,0 +1,126 @@
+/* 全体のリセット */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin: 0;
+}
+
+/* フォーム全体のスタイル */
+form {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+h1 {
+    text-align: left;
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* ローディングテキスト */
+#loading {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* 入力フォームのデザイン */
+.form-group {
+    margin-bottom: 25px;
+    padding: 0 10px;
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* ボタンのスタイル */
+button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease-in-out;
+    background-color: #4CAF50;
+    color: white;
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+/* モーダルのスタイル */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.image-preview {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+/* プレビュー画像の表示 */
+#previewImage {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 10px 0;
+}
