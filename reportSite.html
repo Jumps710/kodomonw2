@@ -193,10 +193,12 @@
                     ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動報告画像" class="report-image">` : ''}
                     <div class="report-text">
                         <div class="report-header">
-                            <a href="${report.siteURL}" target="_blank">${report.siteName}</a>
+                            活動報告
                             <span class="report-date">${formatDate(report.eventDate)}</span>
                         </div>
-                        <div class="report-title">${report.eventType}</div>
+                        <div class="report-title">
+                            <a href="${report.siteURL}" target="_blank">${report.siteName}</a>：${report.eventType}
+                        </div>
                         <div class="report-details">
                             参加人数: 大人${report.adults}名 / 子ども${report.children}名
                         </div>
