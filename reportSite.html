@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>最新活動報告</title>
+    <title>活動報告</title>
     <style>
         @import url(https://fonts.jimstatic.com/css?family=Roboto:300,400,700);
 
@@ -98,7 +98,7 @@
     </style>
 </head>
 <body>
-    <h1>最新活動報告</h1>
+    <h1>活動報告</h1>
 
     <!-- フィルタ選択 -->
     <div class="filter-container">
@@ -170,10 +170,10 @@
                     ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動報告画像" class="report-image">` : ''}
                     <div class="report-text">
                         <div class="report-header">
-                            ${report.siteName} 
+                            開催報告
                             <span class="report-date">${report.eventDate}</span>
                         </div>
-                        <div class="report-title">開催報告: ${report.eventType}</div>
+                        <div class="report-title">${report.siteName} : ${report.eventType}</div>
                         <div class="report-details">
                             参加人数: 大人${report.adults}名 / 子ども${report.children}名<br>
                             コメント: ${report.comments}
