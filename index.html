@@ -132,23 +132,16 @@
 </div>
 
 <script>
-const LIFF_ID = "2007068043-6kbeXdx4";
-const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
-let userId, displayName, siteName;
+const params = new URLSearchParams(window.location.search);
+const userId = params.get("userId");
+const siteName = params.get("siteName");
+const nickname = params.get("nickname");
 
-async function initLIFF() {
-    await liff.init({ liffId: LIFF_ID });
-    if (!liff.isLoggedIn()) {
-        liff.login();
-        return;
-    }
-    const profile = await liff.getProfile();
-    userId = profile.userId;
-    displayName = profile.displayName;
-    checkUserRegistration();
-}
-
-initLIFF();
+window.onload = function() {
+    document.getElementById("formTitle").textContent = `${siteName} ${nickname}さん 活動報告を入力してください。`;
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("reportInfo").style.display = "block";
+};
 </script>
 
 </body>
