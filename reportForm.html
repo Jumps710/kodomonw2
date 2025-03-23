@@ -62,43 +62,66 @@
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const userId = params.get("userId");
-const siteName = params.get("siteName");
-const nickname = params.get("nickname");
+const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
 
-function closeModal() {
-    const modal = document.getElementById("confirmationModal");
-    modal.style.display = "none";
-}
-
-function closeSuccess() {
-    document.getElementById("successModal").style.display = "none";
-}
+let imageBase64 = "";
 
 // 画像選択時の表示処理
 const imageUpload = document.getElementById("imageUpload");
 imageUpload.addEventListener("change", (e) => {
     const file = e.target.files[0];
     document.querySelector(".file-name").textContent = file ? file.name : "未選択";
-    console.log("画像選択:", file ? file.name : "未選択");
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            imageBase64 = await compressImage(event.target.result);
+            document.getElementById("confirmImagePreview").innerHTML = `<img src="${event.target.result}" width="150">`;
+        };
+        reader.readAsDataURL(file);
+    }
 });
 
+// 画像圧縮関数
+async function compressImage(base64Data) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const maxWidth = 800;
+            const maxHeight = 600;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+            }
+            if (height > maxHeight) {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressed = canvas.toDataURL('image/jpeg', 0.7);
+            const base64DataCompressed = compressed.split(',')[1];
+            resolve(base64DataCompressed);
+        };
+        img.src = base64Data;
+    });
+}
+
 // 送信ボタンクリック
-document.getElementById("submitReport").addEventListener("click", (e) => {
-    e.preventDefault();
+document.getElementById("submitReport").addEventListener("click", () => {
     const eventDate = document.getElementById("eventDate").value;
     const eventType = document.getElementById("eventType").value;
     const adults = document.getElementById("adults").value;
     const children = document.getElementById("children").value;
     const comments = document.getElementById("comments").value;
-
-    console.log("送信ボタンがクリックされました");
-    console.log("開催日:", eventDate);
-    console.log("開催タイプ:", eventType);
-    console.log("大人:", adults);
-    console.log("子ども:", children);
-    console.log("コメント:", comments);
 
     // モーダルにデータを表示
     document.getElementById("confirmEventDate").textContent = eventDate;
@@ -107,30 +130,39 @@ document.getElementById("submitReport").addEventListener("click", (e) => {
     document.getElementById("confirmChildren").textContent = children;
     document.getElementById("confirmComments").textContent = comments;
 
-    // モーダル表示
-    const modal = document.getElementById("confirmationModal");
-    modal.style.display = "flex";
+    document.getElementById("confirmationModal").style.display = "flex";
 });
 
 // 確定ボタンクリック
 document.getElementById("confirmSubmit").addEventListener("click", async () => {
+    const formData = new URLSearchParams({
+        action: "submitReport",
+        eventDate: document.getElementById("eventDate").value,
+        eventType: document.getElementById("eventType").value,
+        adults: document.getElementById("adults").value,
+        children: document.getElementById("children").value,
+        comments: document.getElementById("comments").value,
+        imageBase64: imageBase64
+    });
+
     try {
-        console.log("✅ 確定ボタンがクリックされました");
-        document.getElementById("loadingMsg").style.display = "block";
+        const response = await fetch(BACKEND_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: formData
+        });
 
-        // ダミー処理（ここに送信ロジックを挿入）
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        console.log("✅ 活動報告が完了しました");
-        alert("活動報告が完了しました！");
+        const result = await response.json();
+        alert(result.message);
         closeModal();
-        document.getElementById("loadingMsg").style.display = "none";
-        document.getElementById("reportForm").reset();
     } catch (error) {
-        console.error("❌ 活動報告送信エラー:", error);
-        alert("活動報告の送信に失敗しました");
+        alert("送信に失敗しました");
     }
 });
+
+function closeModal() {
+    document.getElementById("confirmationModal").style.display = "none";
+}
 </script>
 
 </body>
