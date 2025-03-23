@@ -15,7 +15,7 @@
 <body>
 
 <form id="reportForm">
-    <h1 id="formTitle">活動報告</h1>
+    <h1 id="formTitle"></h1>
     <label for="eventDate">開催日:</label>
     <input type="date" id="eventDate" required>
 
@@ -64,9 +64,19 @@
 <script>
 const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
 
-let imageBase64 = "";
+const params = new URLSearchParams(window.location.search);
+const userId = params.get("userId");
+const siteName = params.get("siteName");
+const nickname = params.get("nickname");
+
+// タイトル設定
+window.onload = function() {
+    const titleElement = document.getElementById("formTitle");
+    titleElement.innerHTML = `${siteName}<br>${nickname}さん 活動報告をしてください`;
+};
 
 // 画像選択時の表示処理
+let imageBase64 = "";
 const imageUpload = document.getElementById("imageUpload");
 imageUpload.addEventListener("change", (e) => {
     const file = e.target.files[0];
@@ -137,6 +147,9 @@ document.getElementById("submitReport").addEventListener("click", () => {
 document.getElementById("confirmSubmit").addEventListener("click", async () => {
     const formData = new URLSearchParams({
         action: "submitReport",
+        userId: userId,
+        siteName: siteName,
+        nickname: nickname,
         eventDate: document.getElementById("eventDate").value,
         eventType: document.getElementById("eventType").value,
         adults: document.getElementById("adults").value,
