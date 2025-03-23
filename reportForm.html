@@ -1,3 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動報告フォーム</title>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.20.0/sdk.js"></script>
+    <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        new VConsole();
+    </script>
+</head>
+<body>
+
+<form id="reportForm">
+    <h1 id="formTitle">活動報告</h1>
+    <label for="eventDate">開催日:</label>
+    <input type="date" id="eventDate" required>
+
+    <label for="eventType">開催タイプ:</label>
+    <select id="eventType" required>
+        <option value="子ども食堂">子ども食堂</option>
+        <option value="お弁当配布">お弁当配布</option>
+        <option value="フードパントリー">フードパントリー</option>
+    </select>
+
+    <label for="adults">参加人数（大人）:</label>
+    <input type="number" id="adults" min="0" required>
+
+    <label for="children">参加人数（子ども）:</label>
+    <input type="number" id="children" min="0" required>
+
+    <label for="comments">気づいた点:</label>
+    <textarea id="comments" required></textarea>
+
+    <div>
+        <input type="file" id="imageUpload" hidden>
+        <label for="imageUpload" class="custom-file-label">画像を選択</label>
+        <span class="file-name">未選択</span>
+    </div>
+
+    <div id="photoPreview"></div>
+
+    <button id="submitReport">送信</button>
+</form>
+
+<!-- プレビューモーダル -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>活動報告を送信しますか？</h2>
+        <div class="preview-item"><b>開催日:</b> <span id="confirmDate"></span></div>
+        <div class="preview-item"><b>開催タイプ:</b> <span id="confirmType"></span></div>
+        <div class="preview-item"><b>参加人数（大人）:</b> <span id="confirmAdults"></span></div>
+        <div class="preview-item"><b>参加人数（子ども）:</b> <span id="confirmChildren"></span></div>
+        <div class="preview-item"><b>気づいた点:</b> <span id="confirmComments"></span></div>
+        <div id="confirmImagePreview"></div>
+        <button id="confirmSubmit">確定</button>
+        <div class="loading-msg" id="loadingMsg">お待ちください・・・</div>
+    </div>
+</div>
+
 <script>
 const params = new URLSearchParams(window.location.search);
 const userId = params.get("userId");
@@ -124,3 +187,7 @@ function closeModal() {
     document.getElementById("confirmationModal").style.display = "none";
 }
 </script>
+
+
+</body>
+</html>
