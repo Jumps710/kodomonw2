@@ -10,7 +10,7 @@
         var vConsole = new VConsole();
         console.log("✅ vConsoleが起動しました");
     </script>
-     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -43,7 +43,7 @@
 
     <div id="photoPreview"></div>
 
-    <button id="submitReport">送信</button>
+    <button type="button" id="submitReport">送信</button>
 </form>
 
 <div id="confirmationModal" class="modal">
@@ -68,7 +68,8 @@ const siteName = params.get("siteName");
 const nickname = params.get("nickname");
 
 function closeModal() {
-    document.getElementById("confirmationModal").style.display = "none";
+    const modal = document.getElementById("confirmationModal");
+    modal.classList.remove("show");
 }
 
 function closeSuccess() {
@@ -106,7 +107,9 @@ document.getElementById("submitReport").addEventListener("click", (e) => {
     document.getElementById("confirmChildren").textContent = children;
     document.getElementById("confirmComments").textContent = comments;
 
-    document.getElementById("confirmationModal").style.display = "flex";
+    // モーダル表示
+    const modal = document.getElementById("confirmationModal");
+    modal.classList.add("show");
 });
 
 // 確定ボタンクリック
@@ -120,14 +123,14 @@ document.getElementById("confirmSubmit").addEventListener("click", async () => {
 
         console.log("✅ 活動報告が完了しました");
         alert("活動報告が完了しました！");
-        document.getElementById("confirmationModal").style.display = "none";
+        closeModal();
         document.getElementById("loadingMsg").style.display = "none";
+        document.getElementById("reportForm").reset();
     } catch (error) {
         console.error("❌ 活動報告送信エラー:", error);
         alert("活動報告の送信に失敗しました");
     }
 });
-
 </script>
 
 </body>
