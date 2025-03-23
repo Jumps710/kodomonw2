@@ -182,8 +182,9 @@ document.getElementById("confirmSubmit").addEventListener("click", async () => {
         }
 
         if (result.status === "success") {
-            alert(result.message);
+            console.log("✅ 活動報告が完了しました");
             document.getElementById("loadingMsg").style.display = "none";
+            showSuccessPopup("活動報告が完了しました！");
             closeModal();
             document.getElementById("reportForm").reset();
         } else {
@@ -197,6 +198,28 @@ document.getElementById("confirmSubmit").addEventListener("click", async () => {
         document.getElementById("loadingMsg").style.display = "none";
     }
 });
+
+// 成功時ポップアップ表示関数
+function showSuccessPopup(message) {
+    const successModal = document.createElement("div");
+    successModal.classList.add("modal", "show");
+    successModal.innerHTML = `
+        <div class="modal-content">
+            <h3>✅ ${message}</h3>
+            <button onclick="closeSuccessPopup()">OK</button>
+        </div>
+    `;
+    document.body.appendChild(successModal);
+}
+
+// 成功ポップアップを閉じる
+function closeSuccessPopup() {
+    const successModal = document.querySelector(".modal.show");
+    if (successModal) {
+        successModal.remove();
+    }
+}
+
 
 
 function closeModal() {
