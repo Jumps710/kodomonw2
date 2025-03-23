@@ -69,7 +69,7 @@ const nickname = params.get("nickname");
 
 function closeModal() {
     const modal = document.getElementById("confirmationModal");
-    modal.classList.remove("show");
+    modal.style.display = "none";
 }
 
 function closeSuccess() {
@@ -109,7 +109,7 @@ document.getElementById("submitReport").addEventListener("click", (e) => {
 
     // モーダル表示
     const modal = document.getElementById("confirmationModal");
-    modal.classList.add("show");
+    modal.style.display = "flex";
 });
 
 // 確定ボタンクリック
