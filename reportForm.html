@@ -128,11 +128,13 @@ const params = new URLSearchParams(window.location.search);
 const userId = params.get("userId");
 const siteName = params.get("siteName");
 const nickname = params.get("nickname");
+const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
 
 window.onload = function() {
     document.getElementById("formTitle").textContent = `${siteName} ${nickname}さん 活動報告を入力してください。`;
 };
 
+// プレビュー表示
 document.getElementById("previewBtn").addEventListener("click", () => {
     const eventDate = document.getElementById("eventDate").value;
     const eventType = document.getElementById("eventType").value;
@@ -157,10 +159,62 @@ document.getElementById("previewBtn").addEventListener("click", () => {
     document.getElementById("previewModal").style.display = "flex";
 });
 
+// GASへデータ送信
+document.getElementById("confirmBtn").addEventListener("click", async () => {
+    const eventDate = document.getElementById("eventDate").value;
+    const eventType = document.getElementById("eventType").value;
+    const adults = document.getElementById("adults").value;
+    const children = document.getElementById("children").value;
+    const comments = document.getElementById("comments").value;
+    const image = document.getElementById("imageUpload").files[0];
+
+    let imageBase64 = "";
+    if (image) {
+        const reader = new FileReader();
+        imageBase64 = await new Promise((resolve) => {
+            reader.onload = (e) => resolve(e.target.result.split(",")[1]);
+            reader.readAsDataURL(image);
+        });
+    }
+
+    const data = new URLSearchParams({
+        action: "report_submit",
+        userId: userId,
+        siteName: siteName,
+        nickname: nickname,
+        eventDate: eventDate,
+        eventType: eventType,
+        adults: adults,
+        children: children,
+        comments: comments,
+        imageBase64: imageBase64
+    });
+
+    try {
+        const response = await fetch(BACKEND_URL, {
+            method: "POST",
+            body: data
+        });
+        const result = await response.json();
+        if (result.status === "success") {
+            alert("活動報告が完了しました！");
+            closeModal();
+            document.getElementById("reportForm").reset();
+            document.getElementById("previewImage").src = "";
+        } else {
+            alert("エラーが発生しました: " + result.message);
+        }
+    } catch (error) {
+        alert("送信に失敗しました。再度お試しください。");
+        console.error("送信エラー:", error);
+    }
+});
+
 function closeModal() {
     document.getElementById("previewModal").style.display = "none";
 }
 </script>
+
 
 </body>
 </html>
