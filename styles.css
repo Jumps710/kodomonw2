@@ -117,6 +117,18 @@ button:hover {
     align-items: center;
 }
 
+.modal.show {
+    display: flex;
+}
+
+.loading-msg {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+    display: none;
+}
+
+
 .modal-content {
     background: white;
     padding: 20px;
@@ -141,10 +153,3 @@ button:hover {
     margin: 10px 0;
 }
 
-/* お待ちくださいテキスト */
-.loading-msg {
-    color: red;
-    font-weight: bold;
-    margin-top: 10px;
-    display: none;
-}
