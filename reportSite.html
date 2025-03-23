@@ -90,10 +90,23 @@
             line-height: 1.4;
         }
 
+        .report-gap {
+            margin: 8px 0;
+        }
+
         .report-reporter {
             font-size: 14px;
             color: #555;
             margin-top: 8px;
+        }
+
+        a {
+            color: #74A72D;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -130,6 +143,16 @@
                 console.error("データ表示エラー:", error);
                 document.getElementById("report-list").innerHTML = "データを取得できませんでした。";
             }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const day = ("0" + date.getDate()).slice(-2);
+            const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+            const weekday = weekdays[date.getDay()];
+            return `${year}年${month}月${day}日（${weekday}）`;
         }
 
         function initializeFilters(reports) {
@@ -170,12 +193,15 @@
                     ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動報告画像" class="report-image">` : ''}
                     <div class="report-text">
                         <div class="report-header">
-                            開催報告
-                            <span class="report-date">${report.eventDate}</span>
+                            <a href="${report.siteURL}" target="_blank">${report.siteName}</a>
+                            <span class="report-date">${formatDate(report.eventDate)}</span>
                         </div>
-                        <div class="report-title">${report.siteName} : ${report.eventType}</div>
+                        <div class="report-title">${report.eventType}</div>
                         <div class="report-details">
-                            参加人数: 大人${report.adults}名 / 子ども${report.children}名<br>
+                            参加人数: 大人${report.adults}名 / 子ども${report.children}名
+                        </div>
+                        <div class="report-gap"></div>
+                        <div class="report-details">
                             コメント: ${report.comments}
                         </div>
                     </div>
