@@ -111,7 +111,39 @@ document.getElementById("registerBtn").addEventListener("click", async (event) =
     await registerUser();
 });
 
-initLIFF();
+async function initLIFF() {
+    console.log("🚀 LIFF 初期化開始");
+    try {
+        await liff.init({ liffId: LIFF_ID });
+        console.log("✅ LIFF 初期化成功");
+
+        if (!liff.isLoggedIn()) {
+            console.log("⚠️ 未ログイン、ログイン処理を実行");
+            liff.login();
+            return;
+        }
+
+        console.log("🚀 LIFF ログイン済み");
+
+        const profile = await liff.getProfile();
+        userId = profile.userId;
+        displayName = profile.displayName;
+
+        console.log("✅ プロフィール取得成功");
+        console.log(`👤 userId: ${userId}`);
+        console.log(`👤 displayName: ${displayName}`);
+
+        // nicknameを直接表示して確認
+        document.getElementById("nickname").textContent = displayName;
+        console.log(`✅ nickname DOMにセット: ${displayName}`);
+
+        await checkUserRegistration();
+    } catch (error) {
+        console.error("❌ LIFF 初期化エラー:", error);
+        alert("LIFFの初期化に失敗しました。再読み込みしてください。");
+    }
+}
+
 </script>
 
 </body>
