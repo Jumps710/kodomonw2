@@ -211,15 +211,15 @@
             });
 
             const reportItems = filteredReports.map(report => `
-                <div class="report-item">
-                    ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動報告画像" class="report-image">` : ''}
-                    <div class="report-text">
-                        <div class="report-header">活動報告<span class="report-date">${formatDate(report.eventDate)}</span></div>
-                        <div class="report-title">${report.siteName}：${report.eventType}</div>
-                        <div class="report-details">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
-                        <div class="report-details">コメント: ${report.comments}</div>
-                    </div>
-                </div>
+<div class="report-item">
+    <div class="report-text">
+        <div class="report-header">活動報告<span class="report-date">${formatDate(report.eventDate)}</span></div>
+        <div class="report-title">${report.siteName}：${report.eventType}</div>
+        <div class="report-details">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
+        <div class="report-details">コメント: ${report.comments}</div>
+    </div>
+    ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動報告画像" class="report-image">` : ''}
+</div>
             `).join('');
 
             document.getElementById("report-list").innerHTML = reportItems || "該当する活動報告がありません。";
