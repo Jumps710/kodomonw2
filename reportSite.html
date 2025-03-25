@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>活動報告</title>
     <style>
         @import url(https://fonts.jimstatic.com/css?family=Roboto:300,400,700);
@@ -9,7 +10,8 @@
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
-            margin: 20px;
+            margin: 0;
+            padding: 10px;
             background-color: #f7f8f8;
             color: #112631;
             text-align: center;
@@ -97,12 +99,6 @@
             margin: 8px 0;
         }
 
-        .report-reporter {
-            font-size: 14px;
-            color: #555;
-            margin-top: 8px;
-        }
-
         a {
             color: #74A72D;
             text-decoration: none;
@@ -116,10 +112,6 @@
             .report-item {
                 flex-direction: column;
                 align-items: center;
-            }
-
-            .report-image {
-                max-width: 100%;
             }
 
             .report-title {
@@ -192,17 +184,26 @@
 
             monthFilter.innerHTML = `<option value="all">全ての月</option>` + Array.from(months).map(month => `<option value="${month}">${month}</option>`).join('');
             siteFilter.innerHTML = `<option value="all">全ての団体</option>` + Array.from(sites).map(site => `<option value="${site}">${site}</option>`).join('');
+
+            monthFilter.addEventListener("change", () => updateReportList(reports));
+            siteFilter.addEventListener("change", () => updateReportList(reports));
         }
 
         function updateReportList(reports) {
             const monthFilter = document.getElementById("monthFilter").value;
             const siteFilter = document.getElementById("siteFilter").value;
 
-            const filteredReports = reports.filter(report => report.siteName.includes(siteFilter) && report.eventDate.includes(monthFilter));
+            const filteredReports = reports.filter(report => {
+                const date = new Date(report.eventDate);
+                const reportMonth = `${date.getFullYear()}年${("0" + (date.getMonth() + 1)).slice(-2)}月`;
+                const matchMonth = monthFilter === "all" || reportMonth === monthFilter;
+                const matchSite = siteFilter === "all" || report.siteName === siteFilter;
+                return matchMonth && matchSite;
+            });
 
             const reportItems = filteredReports.map(report => `
                 <div class="report-item">
-                    <img src="${report.githubUrl}" alt="活動報告画像" class="report-image">
+                    ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動報告画像" class="report-image">` : ''}
                     <div class="report-text">
                         <div class="report-header">活動報告<span class="report-date">${formatDate(report.eventDate)}</span></div>
                         <div class="report-title">${report.siteName}：${report.eventType}</div>
