@@ -32,8 +32,11 @@
     <label for="children">参加人数（子ども）:</label>
     <input type="number" id="children" min="0" required>
 
-    <label for="comments">気づいた点:</label>
-    <textarea id="comments" required></textarea>
+<label for="externalComments">外部向けコメント:</label>
+<textarea id="externalComments" placeholder="ホームページに公開されるため個人名などはNG" required></textarea>
+
+<label for="internalComments">NW内部向けコメント:</label>
+<textarea id="internalComments" placeholder="NW内部に共有したい気づきなどコメントを記入" required></textarea>
 
     <div>
         <input type="file" id="imageUpload" hidden>
@@ -54,7 +57,8 @@
         <div class="preview-item"><b>開催タイプ:</b> <span id="confirmEventType"></span></div>
         <div class="preview-item"><b>大人:</b> <span id="confirmAdults"></span></div>
         <div class="preview-item"><b>子ども:</b> <span id="confirmChildren"></span></div>
-        <div class="preview-item"><b>気づいた点:</b> <span id="confirmComments"></span></div>
+<div class="preview-item"><b>外部向けコメント:</b> <span id="confirmExternalComments"></span></div>
+<div class="preview-item"><b>NW内部コメント:</b> <span id="confirmInternalComments"></span></div>
         <div id="confirmImagePreview"></div>
         <button id="confirmSubmit">確定</button>
         <div class="loading-msg" id="loadingMsg">お待ちください・・・</div>
@@ -132,13 +136,19 @@ document.getElementById("submitReport").addEventListener("click", () => {
     const adults = document.getElementById("adults").value;
     const children = document.getElementById("children").value;
     const comments = document.getElementById("comments").value;
+    const externalComments = document.getElementById("externalComments").value;
+const internalComments = document.getElementById("internalComments").value;
 
     // モーダルにデータを表示
     document.getElementById("confirmEventDate").textContent = eventDate;
     document.getElementById("confirmEventType").textContent = eventType;
     document.getElementById("confirmAdults").textContent = adults;
     document.getElementById("confirmChildren").textContent = children;
-    document.getElementById("confirmComments").textContent = comments;
+
+
+document.getElementById("confirmExternalComments").textContent = externalComments;
+document.getElementById("confirmInternalComments").textContent = internalComments;
+
 
     document.getElementById("confirmationModal").style.display = "flex";
 });
@@ -147,18 +157,20 @@ document.getElementById("submitReport").addEventListener("click", () => {
 document.getElementById("confirmSubmit").addEventListener("click", async () => {
     document.getElementById("loadingMsg").style.display = "block";
 
-    const formData = new URLSearchParams({
-        action: "report_submit",
-        userId: userId,
-        siteName: siteName,
-        nickname: nickname,
-        eventDate: document.getElementById("eventDate").value,
-        eventType: document.getElementById("eventType").value,
-        adults: document.getElementById("adults").value,
-        children: document.getElementById("children").value,
-        comments: document.getElementById("comments").value,
-        imageBase64: imageBase64
-    });
+const formData = new URLSearchParams({
+    action: "report_submit",
+    userId: userId,
+    siteName: siteName,
+    nickname: nickname,
+    eventDate: document.getElementById("eventDate").value,
+    eventType: document.getElementById("eventType").value,
+    adults: document.getElementById("adults").value,
+    children: document.getElementById("children").value,
+    externalComments: document.getElementById("externalComments").value,
+    internalComments: document.getElementById("internalComments").value,
+    imageBase64: imageBase64
+});
+
 
     try {
         console.log("送信データ: ", Object.fromEntries(formData.entries()));
