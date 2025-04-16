@@ -1,240 +1,223 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【NW内部用】活動報告</title>
-    <style>
-        @import url(https://fonts.jimstatic.com/css?family=Roboto:300,400,700);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【NW内部向け】活動報告</title>
+  <style>
+    @import url(https://fonts.jimstatic.com/css?family=Roboto:300,400,700);
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 10px;
-            background-color: #f7f8f8;
-            color: #112631;
-            text-align: center;
-        }
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 10px;
+      background-color: #f7f8f8;
+      color: #112631;
+      text-align: center;
+    }
 
-        h1 {
-            margin-bottom: 20px;
-            font-size: 28px;
-            color: #74A72D;
-            font-weight: bold;
-        }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #74A72D;
+      font-weight: bold;
+    }
 
-        #report-list {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
-        }
+    #report-list {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+    }
 
-        .filter-container {
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    .filter-container {
+      margin-bottom: 20px;
+      text-align: center;
+    }
 
-        select {
-            padding: 14px;
-            font-size: 18px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            background-color: #f9f9f9;
-            margin-bottom: 10px;
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            width: auto;
-            min-width: 200px;
-            max-width: 400px;
-        }
+    select {
+      padding: 14px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+      margin-bottom: 10px;
+      appearance: none;
+      width: auto;
+      min-width: 200px;
+      max-width: 400px;
+    }
 
-        .report-item {
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out;
-        }
+    .report-item {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+    }
 
-        .report-item:hover {
-            transform: scale(1.02);
-        }
+    .report-item:hover {
+      transform: scale(1.02);
+    }
 
-        .report-image {
-            width: 180px;
-            height: auto;
-            margin-right: 20px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
+    .report-image {
+      width: 180px;
+      height: auto;
+      margin-right: 20px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
 
-        .report-text {
-            flex: 1;
-            margin-left: 0;
-        }
+    .report-text {
+      flex: 1;
+      margin-left: 0;
+    }
 
-        .report-header {
-            font-size: 14px;
-            color: #74A72D;
-            margin-bottom: 4px;
-        }
+    .report-header {
+      font-size: 14px;
+      color: #74A72D;
+      margin-bottom: 4px;
+    }
 
-        .report-date {
-            color: #333;
-            font-size: 14px;
-            margin-left: 10px;
-        }
+    .report-date {
+      color: #333;
+      font-size: 14px;
+      margin-left: 10px;
+    }
 
-        .report-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin: 8px 0;
-        }
+    .report-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
 
-        .report-details {
-            font-size: 16px;
-            margin: 10px 0;
-            line-height: 1.4;
-        }
+    .report-details {
+      font-size: 16px;
+      margin: 10px 0;
+      line-height: 1.4;
+    }
 
-        .report-gap {
-            margin: 8px 0;
-        }
+    @media only screen and (max-width: 600px) {
+      h1 {
+        font-size: 24px;
+      }
 
-        a {
-            color: #74A72D;
-            text-decoration: none;
-        }
+      .report-item {
+        flex-direction: column;
+        align-items: center;
+      }
 
-        a:hover {
-            text-decoration: underline;
-        }
+      .report-image {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+      }
 
-        @media only screen and (max-width: 600px) {
-            h1 {
-                font-size: 24px;
-            }
+      .report-title {
+        font-size: 18px;
+      }
 
-            .report-item {
-                flex-direction: column;
-                align-items: center;
-            }
+      .report-details {
+        font-size: 14px;
+      }
 
-            .report-image {
-                margin-right: 0;
-                margin-bottom: 10px;
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-            }
-
-            .report-title {
-                font-size: 18px;
-            }
-
-            .report-details {
-                font-size: 14px;
-            }
-
-            select {
-                width: 90%;
-                margin: 5px auto;
-            }
-        }
-    </style>
+      select {
+        width: 90%;
+        margin: 5px auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>【NW内部向け】活動報告</h1>
+  <h1>【NW内部向け】活動報告</h1>
 
-    <!-- フィルタ選択 -->
-    <div class="filter-container">
-        <select id="monthFilter"></select>
-        <select id="siteFilter"></select>
-    </div>
+  <div class="filter-container">
+    <select id="monthFilter"></select>
+    <select id="siteFilter"></select>
+  </div>
 
-    <div id="report-list">読み込み中...</div>
+  <div id="report-list">読み込み中...</div>
 
-    <script>
-        async function loadReports() {
-            try {
-                const response = await fetch("https://raw.githubusercontent.com/Jumps710/kodomonw2/main/data/internalReport.json?t=" + new Date().getTime());
-                if (!response.ok) throw new Error("データ取得エラー");
-                const reports = await response.json();
-                reports.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  <script>
+    async function loadReports() {
+      try {
+        const response = await fetch("https://raw.githubusercontent.com/Jumps710/kodomonw2/main/data/internalReport.json?t=" + new Date().getTime());
+        if (!response.ok) throw new Error("データ取得エラー");
+        const reports = await response.json();
+        reports.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-                initializeFilters(reports);
-                updateReportList(reports);
-            } catch (error) {
-                document.getElementById("report-list").innerHTML = "データを取得できませんでした。";
-            }
-        }
+        initializeFilters(reports);
+        updateReportList(reports);
+      } catch (error) {
+        document.getElementById("report-list").innerHTML = "データを取得できませんでした。";
+      }
+    }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const year = date.getFullYear();
-            const month = ("0" + (date.getMonth() + 1)).slice(-2);
-            const day = ("0" + date.getDate()).slice(-2);
-            return `${year}年${month}月${day}日`;
-        }
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+      return `${year}年${month}月${day}日`;
+    }
 
-        function initializeFilters(reports) {
-            const monthFilter = document.getElementById("monthFilter");
-            const siteFilter = document.getElementById("siteFilter");
+    function initializeFilters(reports) {
+      const monthFilter = document.getElementById("monthFilter");
+      const siteFilter = document.getElementById("siteFilter");
 
-            const months = new Set();
-            const sites = new Set();
+      const months = new Set();
+      const sites = new Set();
 
-            reports.forEach(report => {
-                const date = new Date(report.eventDate);
-                const month = `${date.getFullYear()}年${("0" + (date.getMonth() + 1)).slice(-2)}月`;
-                months.add(month);
-                sites.add(report.siteName);
-            });
+      reports.forEach(report => {
+        const date = new Date(report.eventDate);
+        const month = `${date.getFullYear()}年${("0" + (date.getMonth() + 1)).slice(-2)}月`;
+        months.add(month);
+        sites.add(report.siteName);
+      });
 
-            monthFilter.innerHTML = `<option value="all">全ての月</option>` + Array.from(months).map(month => `<option value="${month}">${month}</option>`).join('');
-            siteFilter.innerHTML = `<option value="all">全ての団体</option>` + Array.from(sites).map(site => `<option value="${site}">${site}</option>`).join('');
+      monthFilter.innerHTML = `<option value="all">全ての月</option>` + Array.from(months).map(month => `<option value="${month}">${month}</option>`).join('');
+      siteFilter.innerHTML = `<option value="all">全ての団体</option>` + Array.from(sites).map(site => `<option value="${site}">${site}</option>`).join('');
 
-            monthFilter.addEventListener("change", () => updateReportList(reports));
-            siteFilter.addEventListener("change", () => updateReportList(reports));
-        }
+      monthFilter.addEventListener("change", () => updateReportList(reports));
+      siteFilter.addEventListener("change", () => updateReportList(reports));
+    }
 
-        function updateReportList(reports) {
-            const monthFilter = document.getElementById("monthFilter").value;
-            const siteFilter = document.getElementById("siteFilter").value;
+    function updateReportList(reports) {
+      const monthFilter = document.getElementById("monthFilter").value;
+      const siteFilter = document.getElementById("siteFilter").value;
 
-            const filteredReports = reports.filter(report => {
-                const date = new Date(report.eventDate);
-                const reportMonth = `${date.getFullYear()}年${("0" + (date.getMonth() + 1)).slice(-2)}月`;
-                const matchMonth = monthFilter === "all" || reportMonth === monthFilter;
-                const matchSite = siteFilter === "all" || report.siteName === siteFilter;
-                return matchMonth && matchSite;
-            });
+      const filteredReports = reports.filter(report => {
+        const date = new Date(report.eventDate);
+        const reportMonth = `${date.getFullYear()}年${("0" + (date.getMonth() + 1)).slice(-2)}月`;
+        const matchMonth = monthFilter === "all" || reportMonth === monthFilter;
+        const matchSite = siteFilter === "all" || report.siteName === siteFilter;
+        return matchMonth && matchSite;
+      });
 
-            const reportItems = filteredReports.map(report => `
-<div class="report-item">
-    ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動報告画像" class="report-image">` : ''}
-    <div class="report-text">
-        <div class="report-header">活動報告<span class="report-date">${formatDate(report.eventDate)}</span></div>
-        <div class="report-title">${report.siteName}：${report.eventType}</div>
-        <div class="report-details">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
-        <div class="report-details">内部向けコメント: ${report.internalComments}</div>
-        <div class="report-details">外部向けコメント: ${report.externalComments}</div>
-    </div>
-</div>
-            `).join('');
+      const reportItems = filteredReports.map(report => `
+        <div class="donation-item">
+          ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動画像" class="donation-image">` : ''}
+          <div class="donation-text">
+            <div class="donation-header">活動報告<span class="donation-date">${formatDate(report.eventDate)}</span></div>
+            <div class="donation-title">${report.siteName}：${report.eventType}</div>
+            <div class="donation-message">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
+            <div class="donation-message">内部向けコメント: ${report.internalComments}</div>
+            <div class="donation-message">外部向けコメント: ${report.externalComments}</div>
+          </div>
+        </div>
+      `).join('');
 
-            document.getElementById("report-list").innerHTML = reportItems || "該当する活動報告がありません。";
-        }
+      document.getElementById("report-list").innerHTML = reportItems || "該当する活動報告がありません。";
+    }
 
-        loadReports();
-    </script>
+    loadReports();
+  </script>
 </body>
 </html>
