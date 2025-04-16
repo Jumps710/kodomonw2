@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>【NW内部向け】活動報告</title>
   <style>
     @import url(https://fonts.jimstatic.com/css?family=Roboto:300,400,700);
@@ -96,7 +96,7 @@
       margin: 8px 0;
     }
 
-    .report-details {
+    .report-message {
       font-size: 16px;
       margin: 10px 0;
       line-height: 1.4;
@@ -124,7 +124,7 @@
         font-size: 18px;
       }
 
-      .report-details {
+      .report-message {
         font-size: 14px;
       }
 
@@ -202,14 +202,14 @@
       });
 
       const reportItems = filteredReports.map(report => `
-        <div class="donation-item">
-          ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動画像" class="donation-image">` : ''}
-          <div class="donation-text">
-            <div class="donation-header">活動報告<span class="donation-date">${formatDate(report.eventDate)}</span></div>
-            <div class="donation-title">${report.siteName}：${report.eventType}</div>
-            <div class="donation-message">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
-            <div class="donation-message">内部向けコメント: ${report.internalComments}</div>
-            <div class="donation-message">外部向けコメント: ${report.externalComments}</div>
+        <div class="report-item">
+          ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動画像" class="report-image">` : ''}
+          <div class="report-text">
+            <div class="report-header">活動報告<span class="report-date">${formatDate(report.eventDate)}</span></div>
+            <div class="report-title">${report.siteName}：${report.eventType}</div>
+            <div class="report-message">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
+            <div class="report-message">内部向けコメント: ${report.internalComments}</div>
+            <div class="report-message">外部向けコメント: ${report.externalComments}</div>
           </div>
         </div>
       `).join('');
