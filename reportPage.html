@@ -14,12 +14,12 @@
       padding: 10px;
       background-color: #f7f8f8;
       color: #112631;
-      text-align: center;
     }
 
     h1 {
+      text-align: center;
       margin-bottom: 20px;
-      font-size: 28px;
+      font-size: 24px;
       color: #74A72D;
       font-weight: bold;
     }
@@ -27,7 +27,6 @@
     #report-list {
       max-width: 800px;
       margin: 0 auto;
-      text-align: left;
     }
 
     .filter-container {
@@ -42,16 +41,13 @@
       border-radius: 6px;
       background-color: #f9f9f9;
       margin-bottom: 10px;
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
       width: auto;
       min-width: 200px;
       max-width: 400px;
     }
 
-    .donation-item {
+    .report-item {
       display: flex;
       flex-wrap: nowrap;
       align-items: flex-start;
@@ -64,42 +60,41 @@
       transition: transform 0.2s ease-in-out;
     }
 
-    .donation-item:hover {
+    .report-item:hover {
       transform: scale(1.02);
     }
 
-    .donation-image {
-                margin-right: 0;
-                margin-bottom: 10px;
-                width: 100%;
-                max-width: 100%;
-                height: auto;
+    .report-image {
+      width: 180px;
+      height: auto;
+      margin-right: 20px;
+      object-fit: cover;
+      border-radius: 5px;
     }
 
-    .donation-text {
+    .report-text {
       flex: 1;
-      margin-left: 0;
     }
 
-    .donation-header {
+    .report-header {
       font-size: 14px;
       color: #74A72D;
       margin-bottom: 4px;
     }
 
-    .donation-date {
+    .report-date {
       color: #333;
       font-size: 14px;
       margin-left: 10px;
     }
 
-    .donation-title {
+    .report-title {
       font-size: 20px;
       font-weight: bold;
       margin: 8px 0;
     }
 
-    .donation-message {
+    .report-message {
       font-size: 16px;
       margin: 10px 0;
       line-height: 1.4;
@@ -110,12 +105,12 @@
         font-size: 24px;
       }
 
-      .donation-item {
+      .report-item {
         flex-direction: column;
         align-items: center;
       }
 
-      .donation-image {
+      .report-image {
         margin-right: 0;
         margin-bottom: 10px;
         width: 100%;
@@ -123,11 +118,11 @@
         height: auto;
       }
 
-      .donation-title {
+      .report-title {
         font-size: 18px;
       }
 
-      .donation-message {
+      .report-message {
         font-size: 14px;
       }
 
@@ -141,7 +136,6 @@
 <body>
   <h1>子ども食堂ネットワーク活動報告</h1>
 
-  <!-- フィルタ選択 -->
   <div class="filter-container">
     <select id="monthFilter"></select>
     <select id="siteFilter"></select>
@@ -205,13 +199,13 @@
       });
 
       const html = filtered.map(report => `
-        <div class="donation-item">
-          ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動画像" class="donation-image">` : ''}
-          <div class="donation-text">
-            <div class="donation-header">活動報告<span class="donation-date">${formatDate(report.eventDate)}</span></div>
-            <div class="donation-title">${report.siteName}：${report.eventType}</div>
-            <div class="donation-message">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
-            <div class="donation-message">コメント: ${report.externalComments}</div>
+        <div class="report-item">
+          ${report.githubUrl ? `<img src="${report.githubUrl}" alt="活動画像" class="report-image">` : ''}
+          <div class="report-text">
+            <div class="report-header">活動報告<span class="report-date">${formatDate(report.eventDate)}</span></div>
+            <div class="report-title">${report.siteName}：${report.eventType}</div>
+            <div class="report-message">参加人数: 大人${report.adults}名 / 子ども${report.children}名</div>
+            <div class="report-message">コメント: ${report.externalComments}</div>
           </div>
         </div>
       `).join('');
